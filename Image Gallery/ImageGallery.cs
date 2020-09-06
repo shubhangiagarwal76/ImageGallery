@@ -42,22 +42,24 @@ namespace Image_Gallery
         public ImageGallery()
         {
             InitializeComponent();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+           
             this.AutoScaleDimensions = new SizeF(8F, 16F);
             this.AutoScaleMode = AutoScaleMode.Font;
-
-          
-            this.ClientSize = new Size(780, 800);
             
+            this.ClientSize = new Size(790, 790);
             this.MaximizeBox = false;
             this.MaximumSize = new Size(810, 810);
+            this.MinimumSize = new Size(790, 730);
             this.Name = "ImageGallery";
-           
-            this.StartPosition = FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.CenterParent;
+
+
+
             this.Text = "Image Gallery";
 
             try
@@ -466,7 +468,14 @@ namespace Image_Gallery
             Rectangle r = _searchBox.Bounds;
             r.Inflate(3, 3);
             Pen p = new Pen(Color.LightGray);
-            e.Graphics.DrawRectangle(p, r);
+            try
+            {
+                e.Graphics.DrawRectangle(p, r);
+            }
+            catch
+            {
+                Console.WriteLine("NULL VALUE RECEIVED");
+            }
         }
 
         //CLICK EVENT ON SEARCH PICTURE
@@ -562,6 +571,7 @@ namespace Image_Gallery
                 c1PdfDocument1.Save(saveFile.FileName);
 
             }
+           
 
         }
 
