@@ -77,7 +77,7 @@ namespace Image_Gallery
         }
 
         //ADDING SPLIT CONTAINERS(PANEL1, PANEL2)
-        SplitContainer addSplitContainer()
+        async SplitContainer addSplitContainer()
         {
             splitContainer1 = new SplitContainer();
             splitContainer1.Dock = DockStyle.Fill;
@@ -106,9 +106,31 @@ namespace Image_Gallery
             //ADDING STATUS 
             splitContainer1.Panel2.Controls.Add(addStatus());
 
-           
+            imagesList = await datafetch.GetImageData("Grapecity");
 
-           return splitContainer1;
+            String str = _searchBox.Text + "'s" + " Images";
+
+            //GIBBERISH SEARCHES (EXTRA FEATURE)
+            if (!imagesList.Any())
+            {
+                imagesList = await datafetch.GetImageData("No Image", 1);
+                str = "Oopps.. No Image Found";
+            }
+
+            //CHECKING FOR NETWORK ERROR
+            if (!datafetch.flag)
+                str = "Network Error";
+
+            AddTiles(imagesList);
+            group1.Visible = true;
+
+            topic.Text = str;
+            topic.Visible = true;
+            toolStripProgressBar1.Visible = false;
+
+
+
+            return splitContainer1;
         }
 
         //CREATING TABLE LAYOUT TO ADD SPLIT CONTAINER PANEL 1
@@ -360,6 +382,7 @@ namespace Image_Gallery
             _imageTileControl.Paint += new PaintEventHandler(imageTileControlPaint);
 
             return _imageTileControl;
+
 
         }
 
